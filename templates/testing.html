@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block includes %}
+    <script src="{{ url_for('static', filename='js/test/vid.js') }}"></script>
+{% endblock %}
+
+{% set title = 'Testing' %}
+
+{% block header %}
+    {% include 'header.html'%}
+{% endblock %}
+
+{% block content %}
+<div class="content">
+
+    <div class="container">
+        <h2>Testing page</h2>
+        <video width="512" height="64" autoplay controls>
+            <source src="{{ url }}" type="video/mp4">
+        </video>
+    </div>
+
+</div>
+
+{% endblock %}

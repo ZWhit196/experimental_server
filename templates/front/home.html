@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block includes %}
+{% endblock %}
+
+{% set title = 'Home' %}
+
+{% block header %}
+    {% include 'header.html'%}
+{% endblock %}
+
+{% block content %}
+<div id="content" class="home">
+    <div class="container">
+        <div class="content">
+            <h3>Home Placeholder</h3>
+            {% if current_user.is_authenticated %}
+                <p>You are logged in.</p>
+                <ul>
+                    <li><a href="/tests">testing page</a></li>
+                    <li><a>None</a></li>
+                    <li><a>lol</a></li>
+                </ul>
+            {% else %}
+                <p>You are NOT logged in. <a href="/login">Login here.</a></p>
+            {% endif %}
+        </div>
+    </div>
+
+</div>
+
+{% endblock %}

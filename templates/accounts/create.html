@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block includes %}
+{% endblock %}
+
+{% set title = 'Login' %}
+
+{% block header %}
+    {% include 'header.html'%}
+{% endblock %}
+
+{% block content %}
+<div class="content">
+    <div class="container">
+        
+        <h2>Register</h2>
+        <p>Fill out the fields below to make an account.</p>
+        <form action="" method="POST">
+            {{ form.csrf_token }}
+            <div class="inputs">
+                <input type="email" id="email" name="email" placeholder="Enter Email" required>
+                <input type="password" id="password" name="password" placeholder="Enter Password" required>
+                <input type="password" id="confirm" name="confirm" placeholder="Confirm Password" required>
+                <button type="submit" class="btn">Login</button>
+            </div>
+        </form>
+        
+    </div>
+</div>
+{% endblock %}

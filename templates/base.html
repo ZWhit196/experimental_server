@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+  <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <meta name="msapplication-TileColor" content="#ffffff">
+        <meta name="theme-color" content="#ffffff">
+        <!-- CSS -->
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/pages/styles.css')}}">
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/jquery-ui.min.css')}}">
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/jquery-ui.structure.min.css')}}">
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/jquery-ui.theme.min.css')}}">
+        <!-- Font -->
+        <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,300i,400,500" rel="stylesheet">
+        <!-- JS libraries -->
+        <script src="{{ url_for('static', filename='js/jslib/jquery.js') }}"></script>
+        <script src="{{ url_for('static', filename='js/jslib/jquery-ui.min.js') }}"></script>
+        <script src="{{ url_for('static', filename='js/jslib/moment.js') }}"></script>
+        <!-- Site JS -->
+        <script src="{{ url_for('static', filename='js/utils.js') }}"></script>
+        <script src="{{ url_for('static', filename='js/site.js') }}"></script>
+        
+        {% block includes %}{% endblock %}
+        
+        <title>{{ title }}</title>
+    </head>
+    {% block body %}
+        {% block header %}
+            {% include 'header.html' %}
+        {% endblock %}
+        
+        {% with msgs = get_flashed_messages() %}
+            {% if msgs %}
+            <div class="flashes" id="flashes">
+                <span class="ui-icon ui-icon-closethick"></span>
+                <ul>
+                    {% for msg in msgs %}
+                    <li>{{ msg }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+            {% endif %}
+        {% endwith %}
+    
+        {% block content %}{% endblock %}
+        
+        {% block footer %}
+            {% include 'footer.html' %}
+        {% endblock %}
+        
+    {% endblock %}
+</html>
