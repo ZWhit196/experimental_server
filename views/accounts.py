@@ -5,26 +5,28 @@ from flask_login import login_user, logout_user, current_user, login_required
 from flask.templating import render_template
 from flask.helpers import url_for
 
-from database import Email_used, New_user, Get_user
-from helpers import Error, Load_data, Reg_form, Login_form
+from database import Username_used, New_user, Get_user
+import helpers
+# import
+
 
 accounts_router = Blueprint('accounts', __name__, template_folder='templates')
 
 
 @accounts_router.route("/login", methods=["GET","POST"])
 def login():
-    form = Login_form()
+    form = helpers.Login_form()
     if request.method == 'GET':
         return render_template('accounts/login.html', form=form)
     if form.validate_on_submit(): # Basically the `POST` request
-        email = form.email.data.lower()
+        username = form.username.data.lower()
         password = form.password.data
-        registered_user = Get_user(email)
+        registered_user = Get_user(username)
         if registered_user is not None:
             login_user(registered_user, remember=True)
             flash("You are logged in.")
             return redirect(url_for("front.home"))
-    flash("Email or password is invalid.")
+    flash("Username or password is invalid.")
     return redirect(url_for("accounts.login"))
 
 
@@ -38,18 +40,22 @@ def logout():
 @accounts_router.route("/create", methods=["GET","POST"])
 def create():
     try:
-        form = Reg_form()
+        form = helpers.Reg_form()
         if form.validate_on_submit(): # Basically the `POST` request
-            taken = Email_used(form.email.data.lower())
+            taken = Username_used(form.username.data.lower())
             if not taken:
-                user = New_user( form.email.data.lower(), form.password.data )
+                user = New_user( form.username.data.lower(), form.password.data )
                 login_user(user, remember=True)
+                
+                # Setup folder and update reg.json
+#                 FM.Create_personal_base() # Create your personal folder
+                
                 flash("User has been created. Welcome!")
                 return redirect(url_for("front.home"))
-            flash("That email has already been taken.")
+            flash("That username has already been taken.")
             return redirect(url_for("accounts.create"))
-        if form.email.errors or form.password.errors:
-            for err in form.email.errors:
+        if form.username.errors or form.password.errors:
+            for err in form.username.errors:
                 flash(err)
             for err in form.password.errors:
                 flash(err)
@@ -59,5 +65,5 @@ def create():
         traceback.print_exc()
         print("Error in create:",e)
         if request.method == "POST":
-            return Error(error="SERVER", status=500)
+            return helpers.Error(error="SERVER", status=500)
         abort(500)

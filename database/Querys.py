@@ -1,26 +1,26 @@
-from DB import db
+from database.DB import db
 from models import User
 
-def _Create_user(email, password):
+def _Create_user(username, password):
     ''' Create a user and commit it to the database. '''
-    u = User(email, password) # request.form['marketing_opt_in'], # True
+    u = User(username, password)
     db.session.add(u)
     db.session.commit()
     return u
 
-def _Find_user(email):
+def _Find_user(username):
     ''' Find a user by email. '''
-    return User.query.filter_by(email=email).first()
+    return User.query.filter_by(username=username).first()
 
-def _Check_email_used(email):
+def _Check_username_used(username):
     ''' Checks whether an email is used. '''
-    if User.query.filter_by(email=email).first():
+    if User.query.filter_by(username=username).first():
         return True
     return False
 
-def _Reset_user_password(password, email):
+def _Reset_user_password(password, username):
     ''' Reset password. '''
-    u = User.query.filter_by(email=email).first()
+    u = User.query.filter_by(username=username).first()
     if u:
         u.update_password(password)
         return True

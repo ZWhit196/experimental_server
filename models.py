@@ -1,24 +1,24 @@
 import datetime
 from passlib.hash import pbkdf2_sha512
 
-from DB import db
+from database.DB import db
 
 
 class User(db.Model):
     uid = db.Column('uid', db.Integer, primary_key=True, nullable=False)
-    email = db.Column(db.String(256), unique=True, nullable=False)
+    username = db.Column(db.String(256), unique=True, nullable=False)
     password = db.Column(db.Text, nullable=False)
     account_created = db.Column(db.DateTime())
     last_login = db.Column(db.DateTime())
 
-    def __init__(self, email, password):
-        self.email = email.lower()
+    def __init__(self, username, password):
+        self.username = username.lower()
         self.set_password(password)
         self.account_created = datetime.datetime.now()
         self.last_login = datetime.datetime.now()
 
     def __repr__(self):
-        return '<User {}>'.format(self.email)
+        return '<User: {}>'.format(self.username)
 
     # functions for login manager
     def is_authenticated(self):
@@ -34,6 +34,10 @@ class User(db.Model):
         return str(self.uid)
     # End login manager func.
     
+    def commit_self(self):
+        db.session.add(self)
+        db.session.commit()
+    
     def set_password(self, password):
         ''' hashes and salts a new password '''
         self.password = pbkdf2_sha512.encrypt(password, rounds=200000, salt_size=16)
@@ -45,11 +49,9 @@ class User(db.Model):
     def update_password(self, password):
         ''' sets and saves a password '''
         self.set_password(password)
-        db.session.add(self)
-        db.session.commit()
+        self.commit_self()
 
     def update_login(self):
         ''' updates time since last login '''
         self.last_login = datetime.datetime.now()
-        db.session.add(self)
-        db.session.commit()
+        self.commit_self()

@@ -3,7 +3,7 @@
 {% block includes %}
 {% endblock %}
 
-{% set title = 'Login' %}
+{% set title = 'Create' %}
 
 {% block header %}
     {% include 'header.html'%}
@@ -18,7 +18,7 @@
         <form action="" method="POST">
             {{ form.csrf_token }}
             <div class="inputs">
-                <input type="email" id="email" name="email" placeholder="Enter Email" required>
+                <input type="text" id="username" name="username" placeholder="Enter Username" required>
                 <input type="password" id="password" name="password" placeholder="Enter Password" required>
                 <input type="password" id="confirm" name="confirm" placeholder="Confirm Password" required>
                 <button type="submit" class="btn">Login</button>

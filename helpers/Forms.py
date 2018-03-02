@@ -5,7 +5,7 @@ import database
 
 
 class Register_Form(FlaskForm):
-    email = StringField('Email Address',[validators.Length(min=6, max=35)])
+    username = StringField('Username',[validators.Length(min=3, max=30)])
     password = PasswordField('New Password', [
         validators.DataRequired(),
         validators.EqualTo('confirm', message='Passwords must match')
@@ -18,22 +18,22 @@ class Register_Form(FlaskForm):
         if not rv:
             return False
         # password validation checks
-        if len(self.password.data) < 8: # Too short
-            self.password.errors.append("The password must be 8 or more characters long, contain 1 number and 1 letter.")
+        if len(self.password.data) < 5: # Too short
+            self.password.errors.append("The password must be 5 or more characters long, contain 1 number and 1 letter.")
             return False
         if self.password.data.isalpha(): # Only alpha char
-            self.password.errors.append("The password must be 8 or more characters long, contain 1 number and 1 letter.")
+            self.password.errors.append("The password must be 5 or more characters long, contain 1 number and 1 letter.")
             return False
         if self.password.data.isdigit(): # Only numerical
-            self.password.errors.append("The password must be 8 or more characters long, contain 1 number and 1 letter.")
+            self.password.errors.append("The password must be 5 or more characters long, contain 1 number and 1 letter.")
             return False
-        if database.Email_used(self.email.data): # check if email taken
+        if database.Username_used(self.username.data): # check if username taken
             self.email.errors.append('Email has already been registered.')
             return False
         return True
     
 class Login_Form(FlaskForm):
-    email = StringField('Email Address',[validators.Length(min=6, max=35)])
+    username = StringField('Username',[validators.Length(min=3, max=30)])
     password = PasswordField('Password', [
         validators.DataRequired(),
     ])
@@ -44,13 +44,13 @@ class Login_Form(FlaskForm):
         if not rv:
             return False
         # password validation checks
-        if len(self.password.data) < 8: # Too short
-            self.password.errors.append("The password must be 8 or more characters long, contain 1 number and 1 letter.")
+        if len(self.password.data) < 5: # Too short
+            self.password.errors.append("The password must be 5 or more characters long, contain 1 number and 1 letter.")
             return False
         if self.password.data.isalpha(): # Only alpha char
-            self.password.errors.append("The password must be 8 or more characters long, contain 1 number and 1 letter.")
+            self.password.errors.append("The password must be 5 or more characters long, contain 1 number and 1 letter.")
             return False
         if self.password.data.isdigit(): # Only numerical
-            self.password.errors.append("The password must be 8 or more characters long, contain 1 number and 1 letter.")
+            self.password.errors.append("The password must be 5 or more characters long, contain 1 number and 1 letter.")
             return False
         return True

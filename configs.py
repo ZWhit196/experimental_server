@@ -9,7 +9,7 @@ DB_NAME = 'home_server'
 DEV = {
     'CUSTOM_TEST_URL': True,
     'DEBUG': True,
-    'JS_TEST': True,
+#     'JS_TEST': True,
     'SECRET_KEY': 'key',
     'SQLALCHEMY_TRACK_MODIFICATIONS': False,
     'SQLALCHEMY_DATABASE_URI': 'sqlite:///'+DB_NAME+'.db',
@@ -19,7 +19,7 @@ DEV = {
 DEPLOY = {
     'CUSTOM_TEST_URL': False,
     'DEBUG': False,
-    'JS_TEST': False,
+#     'JS_TEST': False,
     'SECRET_KEY': GenerateKey(),
     'SQLALCHEMY_TRACK_MODIFICATIONS': False,
     'SQLALCHEMY_DATABASE_URI': 'sqlite:///'+DB_NAME+'.db',

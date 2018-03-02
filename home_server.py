@@ -6,7 +6,7 @@ from flask.templating import render_template
 from flask_login import LoginManager
 
 from configs import get_conf, DB_NAME
-from DB import db
+from database import db
 from models import User
 from views import Routes
 
@@ -23,7 +23,7 @@ def setup_database(app):
 def create_app():
     app = Flask(__name__)
     
-    conf = get_conf()
+    conf = get_conf("DEV")
     for key in conf:
         app.config[key] = conf[key]
     
@@ -53,7 +53,8 @@ def create_app():
             return Error(msg, status=ex.code)
         return render_template('error.html', err=cd, msg=msg)
     
-    for route in Routes(True):
+    rs = Routes(True)
+    for route in rs:
         app.register_blueprint( route )
     
     return app

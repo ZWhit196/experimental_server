@@ -1,9 +1,11 @@
 import os
 
 from flask import Blueprint, request, Response, flash, jsonify, redirect
+from flask_login import login_required
 from flask.templating import render_template
 from flask.helpers import url_for
 
+from file_management.folder import FolderManager
 from helpers import Error, Load_data
 
 test_router = Blueprint('test', __name__, template_folder='templates')
@@ -11,13 +13,25 @@ SERVABLES = "static/servables/"
 
 @test_router.route("/tests", methods=["GET"])
 def home():
-    url = url_for("test.get_vid", filename="example")
+    filename = "example"
+    url = SERVABLES+"vid/"+filename+'.mp4'
     return render_template("testing.html", url=url)
 
-@test_router.route("/tests/vid/<filename>")
+
+@test_router.route("/tests/folder")
+@login_required
+def make_base():
+    FM = FolderManager()
+    print(FM)
+    print(FM.Get_urls())
+#     print(FM.Create_personal_base())
+    return "<p>Folder manager test</p>"
+
+
+
+# @test_router.route("/tests/vid/<filename>")
 def get_vid(filename):
-    url = SERVABLES+"vid/"+filename+'.mp4'
-    return redirect( url )
+    pass
 #     url = SERVABLES+"vid/"+filename
 #     print(url)
 #     
